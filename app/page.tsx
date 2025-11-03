@@ -31,6 +31,9 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
+  const [currentText, setCurrentText] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Handle scroll progress
   useEffect(() => {
@@ -68,6 +71,36 @@ export default function Portfolio() {
     }
     setIsMenuOpen(false)
   }
+
+  // Typewriter effect
+  useEffect(() => {
+    const rolesArray = ["Frontend Developer", "Web Developer", "Freelancer", "Problem Solver"]
+    const currentRole = rolesArray[currentRoleIndex]
+    let timeout: NodeJS.Timeout
+
+    if (!isDeleting && currentText.length < currentRole.length) {
+      // Typing
+      timeout = setTimeout(() => {
+        setCurrentText(currentRole.substring(0, currentText.length + 1))
+      }, 100)
+    } else if (!isDeleting && currentText.length === currentRole.length) {
+      // Pause at end
+      timeout = setTimeout(() => {
+        setIsDeleting(true)
+      }, 2000)
+    } else if (isDeleting && currentText.length > 0) {
+      // Deleting
+      timeout = setTimeout(() => {
+        setCurrentText(currentText.substring(0, currentText.length - 1))
+      }, 50)
+    } else if (isDeleting && currentText.length === 0) {
+      // Move to next role
+      setIsDeleting(false)
+      setCurrentRoleIndex((prev) => (prev + 1) % rolesArray.length)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [currentText, currentRoleIndex, isDeleting])
 
   // 🎯 EDIT SKILLS HERE - ADD/REMOVE/MODIFY SKILLS
   const skills = [
@@ -123,6 +156,24 @@ export default function Portfolio() {
       live: "https://virtualworkslimited.netlify.app/", // Replace with your actual live demo
       image: "/images/projects/wallpaper4.jpg",
     },
+    {
+      title: "STARK - Premium Streetwear Brand",
+      description:
+        "Premium unisex streetwear brand website showcasing Nigerian style and fashion. Features product collections, nationwide delivery, and a modern e-commerce experience.",
+      technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Vercel"],
+      github: "",
+      live: "https://stark-roan.vercel.app/",
+      image: "/images/projects/stark-hero-lifestyle.jpg",
+    },
+    {
+      title: "GeoLedger - Expense Tracker",
+      description:
+        "A modern expense tracking application with real-time data synchronization. Features transaction management, category filtering, and secure user authentication with Firebase.",
+      technologies: ["React", "Tailwind CSS", "Firebase", "Firestore", "React Context"],
+      github: "",
+      live: "https://geoledger.vercel.app/",
+      image: "/images/projects/photo-1551288049-bebda4e38f71.avif",
+    },
   ]
 
   // Handle image error with proper type safety
@@ -137,31 +188,31 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Scroll Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-gray-200 z-50">
+      <div className="fixed top-0 left-0 right-0 h-0.5 bg-border z-50">
         <div
-          className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300 ease-out"
+          className="h-full bg-foreground transition-all duration-300 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-40 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="text-2xl font-bold text-gray-900">George W</div>
+      <nav className="fixed top-0 w-full bg-background border-b border-border z-40">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex justify-between items-center py-4">
+            <div className="text-lg font-mono font-semibold">GW</div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex gap-6">
               {["home", "about", "skills", "projects", "contact"].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
-                  className={`capitalize transition-all duration-300 font-medium hover:-translate-y-0.5 ${
+                  className={`capitalize text-sm font-medium transition-colors ${
                     activeSection === section
-                      ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                      : "text-gray-600 hover:text-blue-600"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {section}
@@ -170,19 +221,19 @@ export default function Portfolio() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button className="md:hidden text-gray-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <button className="md:hidden text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-100 animate-in slide-in-from-top duration-300">
+            <div className="md:hidden py-4 border-t border-border">
               {["home", "about", "skills", "projects", "contact"].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
-                  className="block w-full text-left py-3 capitalize text-gray-600 hover:text-blue-600 transition-colors font-medium hover:translate-x-2"
+                  className="block w-full text-left py-2 capitalize text-muted-foreground hover:text-foreground transition-colors text-sm"
                 >
                   {section}
                 </button>
@@ -193,165 +244,152 @@ export default function Portfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-20">
-        {/* Subtle Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-blue-200 rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${Math.random() * 3 + 2}s`,
-              }}
-            />
-          ))}
-        </div>
+      <section id="home" className="min-h-screen flex items-center px-6 pt-20">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            {/* Left Column - Text */}
+            <div className="space-y-6">
+              <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+                George<br />Wonuola
+              </h1>
 
-        <div className="text-center max-w-4xl mx-auto relative z-10">
-          <div className="mb-12 animate-in zoom-in duration-700">
-            <Avatar className="w-64 h-64 mx-auto border-4 border-blue-100 shadow-xl">
-              <AvatarImage
-                src="/images/IMAGE 2.jpeg"
-                alt="George Wonuola - Frontend Developer"
-                className="object-cover"
-              />
-              <AvatarFallback className="text-2xl bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-                GW
-              </AvatarFallback>
-            </Avatar>
-          </div>
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold min-h-[2.5rem] md:min-h-[3rem] flex items-center">
+                <span className="text-foreground">{currentText}</span>
+                <span className="inline-block w-0.5 h-8 md:h-10 bg-foreground ml-1 animate-pulse"></span>
+              </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 animate-in fade-in slide-in-from-bottom duration-700 delay-200">
-            George Wonuola
-          </h1>
+              <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
+                Building web applications from Lagos, Nigeria. Focused on clean code, 
+                performance, and user experience.
+              </p>
 
-          <p className="text-xl md:text-2xl text-blue-600 mb-4 font-medium animate-in fade-in slide-in-from-bottom duration-700 delay-300">
-            Frontend Developer
-          </p>
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button
+                  size="lg"
+                  className="bg-foreground text-background hover:bg-foreground/90 px-6 py-2 text-sm font-medium rounded-none"
+                  onClick={() => scrollToSection("projects")}
+                >
+                  View Projects
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border border-foreground text-foreground hover:bg-foreground hover:text-background px-6 py-2 text-sm font-medium rounded-none"
+                  onClick={() => scrollToSection("contact")}
+                >
+                  Contact
+                </Button>
+              </div>
 
-          <p className="text-lg text-gray-600 mb-16 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-700 delay-400">
-            Based in Nigeria • I craft beautiful, responsive web interfaces with modern JavaScript frameworks.
-            Passionate about clean code, performance optimization, and creating exceptional user experiences.
-          </p>
+              <div className="flex gap-4 pt-4">
+                {[
+                  { icon: Github, href: "https://github.com/GeorgieW1", label: "GitHub" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/wonuola-george-66416620a", label: "LinkedIn" },
+                  { icon: Mail, href: "mailto:georgewdevo@gmail.com", label: "Email" },
+                ].map((social, index) => (
+                  <Link
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={social.label}
+                  >
+                    <social.icon size={20} />
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-in fade-in slide-in-from-bottom duration-700 delay-500">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg px-8 py-3 hover:scale-105 transition-transform"
-              onClick={() => scrollToSection("projects")}
-            >
-              View My Work
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 bg-transparent hover:scale-105 transition-transform"
-              onClick={() => scrollToSection("contact")}
-            >
-              Get In Touch
-            </Button>
-          </div>
-
-          <div className="flex justify-center space-x-8 mb-16 animate-in fade-in slide-in-from-bottom duration-700 delay-600">
-            {[
-              { icon: Github, href: "github.com/GeorgieW1", label: "GitHub" },
-              { icon: Linkedin, href: "www.linkedin.com/in/wonuola-george-66416620a", label: "LinkedIn" },
-              { icon: Mail, href: "georgewdevo@gmal.com", label: "Email" },
-            ].map((social, index) => (
-              <Link
-                key={index}
-                href={social.href}
-                className="text-gray-400 hover:text-blue-600 transition-all p-3 rounded-full hover:bg-blue-50 hover:scale-110 hover:-translate-y-1"
-                aria-label={social.label}
-              >
-                <social.icon size={28} />
-              </Link>
-            ))}
-          </div>
-
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <ChevronDown className="text-blue-400" size={32} />
+            {/* Right Column - Avatar */}
+            <div className="flex justify-center md:justify-end">
+              <Avatar className="w-64 h-64 border-2 border-foreground">
+                <AvatarImage
+                  src="/images/IMAGE 2.jpeg"
+                  alt="George Wonuola"
+                  className="object-cover"
+                />
+                <AvatarFallback className="text-2xl font-mono bg-muted">
+                  GW
+                </AvatarFallback>
+              </Avatar>
+            </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-20">About Me</h2>
+      <section id="about" className="py-24 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <div className="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-2">About</div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">Who I Am</h2>
+          </div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16">
             <div className="space-y-6">
-              <h3 className="text-3xl font-semibold text-blue-600 mb-8">Crafting Digital Experiences</h3>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                With over 5 years of experience in frontend development, I specialize in building responsive, performant
-                web applications using modern JavaScript frameworks. Based in Nigeria, I work with clients globally to
-                bring their digital visions to life.
+              <p className="text-base leading-relaxed text-muted-foreground">
+                With over 5 years of experience in frontend development, I specialize in building responsive, 
+                performant web applications using modern JavaScript frameworks. Based in Nigeria, I work with 
+                clients globally to bring their digital visions to life.
               </p>
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className="text-base leading-relaxed text-muted-foreground">
                 I believe in writing clean, maintainable code and staying up-to-date with the latest frontend
-                technologies. Whether it's a complex single-page application or a simple landing page, I approach every
-                project with attention to detail and a focus on user experience.
+                technologies. Whether it's a complex single-page application or a simple landing page, I approach 
+                every project with attention to detail and a focus on user experience.
               </p>
-              <div className="grid grid-cols-2 gap-6 pt-8">
+              
+              <div className="grid grid-cols-2 gap-3 pt-4">
                 {[
-                  { icon: Code, text: "Clean Code", color: "blue" },
-                  { icon: Smartphone, text: "Responsive Design", color: "purple" },
-                  { icon: Zap, text: "Performance", color: "green" },
-                  { icon: Globe, text: "Modern Frameworks", color: "orange" },
+                  { icon: Code, text: "Clean Code" },
+                  { icon: Smartphone, text: "Responsive" },
+                  { icon: Zap, text: "Performance" },
+                  { icon: Globe, text: "Modern Stack" },
                 ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-white shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                  >
-                    <item.icon size={24} className={`text-${item.color}-600`} />
-                    <span className="font-medium text-gray-700">{item.text}</span>
+                  <div key={index} className="flex items-center gap-2 p-3 border border-border hover:border-foreground transition-colors">
+                    <item.icon size={18} className="text-foreground" />
+                    <span className="text-sm font-medium">{item.text}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative">
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-8 text-white shadow-xl hover:scale-105 hover:rotate-1 transition-transform duration-300">
-                <h4 className="text-2xl font-semibold mb-6">Quick Facts</h4>
-                <ul className="space-y-4">
-                  {[
-                    "🎓 Computer Science Background",
-                    "💻 5+ Years Frontend Experience",
-                    "📍 Based in Nigeria",
-                    "🌍 Working with Global Clients",
-                    "⚡ Performance Optimization Expert",
-                    "📱 Mobile-First Approach",
-                  ].map((fact, index) => (
-                    <li key={index} className="text-lg">
-                      {fact}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="border border-border p-8">
+              <h4 className="text-xl font-bold mb-6">Quick Facts</h4>
+              <ul className="space-y-3">
+                {[
+                  { text: "Computer Science Background" },
+                  { text: "5+ Years Frontend Experience" },
+                  { text: "Based in Nigeria" },
+                  { text: "Working with Global Clients" },
+                  { text: "Performance Optimization Expert" },
+                  { text: "Mobile-First Approach" },
+                ].map((fact, index) => (
+                  <li key={index} className="text-sm text-muted-foreground">
+                    {fact.text}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-20">Skills & Technologies</h2>
+      <section id="skills" className="py-24 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <div className="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-2">Skills</div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">Technologies</h2>
+          </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {skills.map((skill, index) => (
-              <Card
-                key={index}
-                className="bg-white border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 h-full hover:-translate-y-2 hover:scale-105"
-              >
-                <CardContent className="p-6 text-center">
-                  <skill.icon size={32} className="mx-auto mb-3 text-blue-600" />
-                  <h3 className="text-gray-900 font-semibold text-lg mb-3">{skill.name}</h3>
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">
+              <Card key={index} className="border border-border hover:border-foreground transition-colors">
+                <CardContent className="p-4 text-center">
+                  <skill.icon size={24} className="mx-auto mb-2 text-foreground" />
+                  <h3 className="text-sm font-medium mb-1">{skill.name}</h3>
+                  <Badge variant="outline" className="text-xs border-border">
                     {skill.category}
                   </Badge>
                 </CardContent>
@@ -362,63 +400,57 @@ export default function Portfolio() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-24 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-20">Featured Projects</h2>
+      <section id="projects" className="py-24 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <div className="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-2">Projects</div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">Featured Work</h2>
+          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-6">
             {projects.map((project, index) => (
-              <Card
-                key={index}
-                className="bg-white border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 h-full overflow-hidden group hover:-translate-y-2 hover:scale-105"
-              >
-                <div className="aspect-video relative overflow-hidden">
+              <Card key={index} className="border border-border hover:border-foreground transition-colors overflow-hidden">
+                <div className="aspect-video relative bg-muted">
                   <Image
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="object-cover"
                     onError={handleImageError}
                   />
-                  {/* Fallback gradient background */}
-                  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 hidden items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Monitor className="text-white/20" size={80} />
-                  </div>
                 </div>
                 <CardHeader className="p-6">
-                  <CardTitle className="text-gray-900 group-hover:text-blue-600 transition-colors text-xl">
+                  <CardTitle className="text-lg font-bold mb-2">
                     {project.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">
+                  <CardDescription className="text-sm text-muted-foreground leading-relaxed">
                     {project.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.map((tech, techIndex) => (
                       <Badge
                         key={techIndex}
                         variant="outline"
-                        className="border-blue-300 text-blue-700 hover:bg-blue-50 transition-colors hover:scale-110"
+                        className="text-xs border-border"
                       >
                         {tech}
                       </Badge>
                     ))}
                   </div>
-                  <div className="flex gap-3">
+                  {project.live && project.live !== "#" && (
                     <Button
                       size="sm"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white hover:scale-105 transition-transform"
+                      className="bg-foreground text-background hover:bg-foreground/90 rounded-none text-xs"
                       onClick={() => {
-                        if (project.live && project.live !== "#") {
-                          window.open(project.live, "_blank", "noopener,noreferrer")
-                        }
+                        window.open(project.live, "_blank", "noopener,noreferrer")
                       }}
                     >
-                      <ExternalLink size={16} className="mr-2" />
-                      Live Demo
+                      <ExternalLink size={14} className="mr-2" />
+                      View Live
                     </Button>
-                  </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -427,51 +459,52 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-8">Let's Work Together</h2>
+      <section id="contact" className="py-24 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <div className="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-2">Contact</div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">Let's Work Together</h2>
+            <p className="text-base text-muted-foreground max-w-lg">
+              I'm always interested in new opportunities and exciting frontend projects. 
+              Let's discuss how we can bring your ideas to life.
+            </p>
+          </div>
 
-          <p className="text-xl text-gray-600 text-center mb-16 leading-relaxed">
-            I'm always interested in new opportunities and exciting frontend projects. Let's discuss how we can bring
-            your ideas to life with modern web technologies.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Info */}
-            <div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-8">Get In Touch</h3>
-              <div className="space-y-6">
-                {[
-                  { icon: Mail, title: "Email", info: "georgewdevo@gmail.com" },
-                  { icon: Linkedin, title: "LinkedIn", info: "linkedin.com/in/georgew" },
-                  { icon: Github, title: "GitHub", info: "github.com/GeorgieW1" },
-                ].map((contact, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-4 p-6 rounded-xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all hover:translate-x-2"
-                  >
-                    <contact.icon className="text-blue-600" size={24} />
-                    <div>
-                      <h4 className="text-gray-900 font-semibold text-lg">{contact.title}</h4>
-                      <p className="text-gray-600">{contact.info}</p>
-                    </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold mb-6">Get In Touch</h3>
+              {[
+                { icon: Mail, title: "Email", info: "georgewdevo@gmail.com", href: "mailto:georgewdevo@gmail.com" },
+                { icon: Linkedin, title: "LinkedIn", info: "linkedin.com/in/wonuola-george-66416620a", href: "https://www.linkedin.com/in/wonuola-george-66416620a" },
+                { icon: Github, title: "GitHub", info: "github.com/GeorgieW1", href: "https://github.com/GeorgieW1" },
+              ].map((contact, index) => (
+                <Link
+                  key={index}
+                  href={contact.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-4 border border-border hover:border-foreground transition-colors"
+                >
+                  <contact.icon className="text-foreground" size={20} />
+                  <div>
+                    <div className="text-sm font-medium">{contact.title}</div>
+                    <div className="text-xs text-muted-foreground">{contact.info}</div>
                   </div>
-                ))}
-              </div>
+                </Link>
+              ))}
             </div>
 
-            {/* Contact Form */}
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-8">Ready to collaborate?</h3>
-              <p className="text-lg text-gray-600 mb-8">
+            <div className="border border-border p-8">
+              <h3 className="text-xl font-bold mb-4">Ready to collaborate?</h3>
+              <p className="text-sm text-muted-foreground mb-6">
                 Let's discuss your next project and bring your ideas to life.
               </p>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg px-8 py-3 hover:scale-105 transition-transform"
+                className="bg-foreground text-background hover:bg-foreground/90 rounded-none w-full"
                 onClick={() => window.open("mailto:georgewdevo@gmail.com", "_blank")}
               >
-                <Mail className="mr-2" size={20} />
+                <Mail className="mr-2" size={18} />
                 Send Email
               </Button>
             </div>
@@ -480,9 +513,11 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-gray-600 text-lg">© 2024 George Wonuola. Built with Next.js and Tailwind CSS.</p>
+      <footer className="py-8 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-sm text-muted-foreground">
+            © 2025 George Wonuola. Built with Next.js and Tailwind CSS.
+          </p>
         </div>
       </footer>
     </div>
