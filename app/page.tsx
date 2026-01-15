@@ -121,6 +121,15 @@ export default function Portfolio() {
   // 🎯 EDIT PROJECTS HERE - ADD MORE PROJECTS AND IMAGES
   const projects = [
     {
+      title: "Merry Trades - Trading Bot Landing Page",
+      description:
+        "A professional landing page for an automated forex trading bot service. Features subscription tiers, real trading proof, FAQ section, and Meta Pixel integration.",
+      technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui"],
+      github: "",
+      live: "https://merrytrades.vercel.app/",
+      image: "/images/IMAGE LGOG1.png",
+    },
+    {
       title: "E-Commerce Frontend",
       description:
         "A modern, responsive e-commerce interface built with React and Tailwind CSS. Features product filtering, cart management, and smooth animations.",
@@ -209,11 +218,10 @@ export default function Portfolio() {
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
-                  className={`capitalize text-sm font-medium transition-colors ${
-                    activeSection === section
+                  className={`capitalize text-sm font-medium transition-colors ${activeSection === section
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   {section}
                 </button>
@@ -259,7 +267,7 @@ export default function Portfolio() {
               </div>
 
               <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-                Building web applications from Lagos, Nigeria. Focused on clean code, 
+                Building web applications from Lagos, Nigeria. Focused on clean code,
                 performance, and user experience.
               </p>
 
@@ -329,16 +337,16 @@ export default function Portfolio() {
           <div className="grid lg:grid-cols-2 gap-16">
             <div className="space-y-6">
               <p className="text-base leading-relaxed text-muted-foreground">
-                With over 5 years of experience in frontend development, I specialize in building responsive, 
-                performant web applications using modern JavaScript frameworks. Based in Nigeria, I work with 
+                With over 5 years of experience in frontend development, I specialize in building responsive,
+                performant web applications using modern JavaScript frameworks. Based in Nigeria, I work with
                 clients globally to bring their digital visions to life.
               </p>
               <p className="text-base leading-relaxed text-muted-foreground">
                 I believe in writing clean, maintainable code and staying up-to-date with the latest frontend
-                technologies. Whether it's a complex single-page application or a simple landing page, I approach 
+                technologies. Whether it's a complex single-page application or a simple landing page, I approach
                 every project with attention to detail and a focus on user experience.
               </p>
-              
+
               <div className="grid grid-cols-2 gap-3 pt-4">
                 {[
                   { icon: Code, text: "Clean Code" },
@@ -465,7 +473,7 @@ export default function Portfolio() {
             <div className="text-sm font-mono text-muted-foreground uppercase tracking-wider mb-2">Contact</div>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">Let's Work Together</h2>
             <p className="text-base text-muted-foreground max-w-lg">
-              I'm always interested in new opportunities and exciting frontend projects. 
+              I'm always interested in new opportunities and exciting frontend projects.
               Let's discuss how we can bring your ideas to life.
             </p>
           </div>
