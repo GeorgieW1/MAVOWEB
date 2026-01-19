@@ -121,6 +121,15 @@ export default function Portfolio() {
   // 🎯 EDIT PROJECTS HERE - ADD MORE PROJECTS AND IMAGES
   const projects = [
     {
+      title: "LuxeStay 🏨✨",
+      description:
+        "A premium vacation rental platform built to demonstrate a modern, full-stack web application. Features a high-performance Next.js frontend, distinct imagery, and a robust Express/Node.js backend.",
+      technologies: ["Next.js 14", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
+      github: "https://github.com/GeorgieW1/LUXESTAY",
+      live: "https://luxestays-eight.vercel.app/",
+      image: "/images/projects/luxestay-banner.jpg",
+    },
+    {
       title: "Merry Trades - Trading Bot Landing Page",
       description:
         "A professional landing page for an automated forex trading bot service. Features subscription tiers, real trading proof, FAQ section, and Meta Pixel integration.",
@@ -137,6 +146,24 @@ export default function Portfolio() {
       github: "https://github.com/vercel/next.js", // Replace with your actual GitHub
       live: "https://vocal-marshmallow-f7ef79.netlify.app/", // Replace with your actual live demo
       image: "/images/projects/ecommerce-project.jpg",
+    },
+    {
+      title: "Modern Architecture Website",
+      description:
+        "A clean, responsive website showcasing architectural projects with interactive galleries, smooth animations, and optimized performance. Features project filtering, image lightboxes, and a minimalist design that highlights the architectural work through strategic typography and refined aesthetics..",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+      github: "https://github.com/tailwindlabs/tailwindcss", // Replace with your actual GitHub
+      live: "https://virtualworkslimited.netlify.app/", // Replace with your actual live demo
+      image: "/images/projects/wallpaper4.jpg",
+    },
+    {
+      title: "GeoLedger - Expense Tracker",
+      description:
+        "A modern expense tracking application with real-time data synchronization. Features transaction management, category filtering, and secure user authentication with Firebase.",
+      technologies: ["React", "Tailwind CSS", "Firebase", "Firestore", "React Context"],
+      github: "",
+      live: "https://geoledger.vercel.app/",
+      image: "/images/projects/photo-1551288049-bebda4e38f71.avif",
     },
     {
       title: "Landing Page Collection",
@@ -157,16 +184,7 @@ export default function Portfolio() {
       image: "/images/projects/weather-project.avif",
     },
     {
-      title: "Modern Architecture Website",
-      description:
-        "A clean, responsive website showcasing architectural projects with interactive galleries, smooth animations, and optimized performance. Features project filtering, image lightboxes, and a minimalist design that highlights the architectural work through strategic typography and refined aesthetics..",
-      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
-      github: "https://github.com/tailwindlabs/tailwindcss", // Replace with your actual GitHub
-      live: "https://virtualworkslimited.netlify.app/", // Replace with your actual live demo
-      image: "/images/projects/wallpaper4.jpg",
-    },
-    {
-      title: "STARK - Premium Streetwear Brand",
+      title: "VORTEX - Premium Streetwear Brand",
       description:
         "Premium unisex streetwear brand website showcasing Nigerian style and fashion. Features product collections, nationwide delivery, and a modern e-commerce experience.",
       technologies: ["Next.js", "React", "Tailwind CSS", "TypeScript", "Vercel"],
@@ -174,16 +192,9 @@ export default function Portfolio() {
       live: "https://stark-roan.vercel.app/",
       image: "/images/projects/stark-hero-lifestyle.jpg",
     },
-    {
-      title: "GeoLedger - Expense Tracker",
-      description:
-        "A modern expense tracking application with real-time data synchronization. Features transaction management, category filtering, and secure user authentication with Firebase.",
-      technologies: ["React", "Tailwind CSS", "Firebase", "Firestore", "React Context"],
-      github: "",
-      live: "https://geoledger.vercel.app/",
-      image: "/images/projects/photo-1551288049-bebda4e38f71.avif",
-    },
+
   ]
+
 
   // Handle image error with proper type safety
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -219,8 +230,8 @@ export default function Portfolio() {
                   key={section}
                   onClick={() => scrollToSection(section)}
                   className={`capitalize text-sm font-medium transition-colors ${activeSection === section
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   {section}
