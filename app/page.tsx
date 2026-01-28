@@ -164,7 +164,7 @@ export default function Portfolio() {
       technologies: ["React", "Tailwind CSS", "Firebase", "Firestore", "React Context"],
       github: "",
       live: "https://geoledger.vercel.app/",
-      image: "/images/projects/photo-1551288049-bebda4e38f71.avif",
+      image: "/images/projects/geoexp.webp",
     },
     {
       title: "Landing Page Collection",
