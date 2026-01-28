@@ -121,14 +121,15 @@ export default function Portfolio() {
   // 🎯 EDIT PROJECTS HERE - ADD MORE PROJECTS AND IMAGES
   const projects = [
     {
-      title: "LuxeStay 🏨✨",
+      title: "Logos Ink Press – Digital Magazine & Community Hub",
       description:
-        "A premium vacation rental platform built to demonstrate a modern, full-stack web application. Features a high-performance Next.js frontend, distinct imagery, and a robust Express/Node.js backend.",
-      technologies: ["Next.js 14", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
-      github: "https://github.com/GeorgieW1/LUXESTAY",
-      live: "https://luxestays-eight.vercel.app/",
-      image: "/images/projects/luxestay-banner.jpg",
+        "Designed and engineered a modern content management system (CMS) and digital library for Logos Ink Press, a community-driven publication. The platform bridges the gap between traditional print and digital media, allowing users to read high-resolution magazines directly in the browser while fostering community engagement through daily quotes and articles.",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Framer Motion", "Vite"],
+      github: "", // Private repository or add link if available
+      live: "https://logos-magazine.vercel.app/",
+      image: "/images/projects/logosmags.png",
     },
+
     {
       title: "Merry Trades - Trading Bot Landing Page",
       description:
@@ -136,7 +137,7 @@ export default function Portfolio() {
       technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui"],
       github: "",
       live: "https://merrytrades.vercel.app/",
-      image: "/images/IMAGE LGOG1.png",
+      image: "/images/projects/maerrytrad.png",
     },
     {
       title: "E-Commerce Frontend",
@@ -278,7 +279,7 @@ export default function Portfolio() {
               </div>
 
               <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-                Building web applications from Lagos, Nigeria. Focused on clean code,
+                Building web applications from Ibadan, Nigeria. Focused on clean code,
                 performance, and user experience.
               </p>
 
