@@ -121,6 +121,15 @@ export default function Portfolio() {
   // 🎯 EDIT PROJECTS HERE - ADD MORE PROJECTS AND IMAGES
   const projects = [
     {
+      title: "BEOTY Skincare Platform",
+      description:
+        "A premium e-commerce platform for a luxury natural skincare brand designed for the Nigerian market. Built with Next.js 16 and React 19, it features high-performance SVG product visualizations, culturally relevant content, and immersive GPU-accelerated animations using Framer Motion.",
+      technologies: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion"],
+      github: "",
+      live: "https://beoty.vercel.app",
+      image: "/images/projects/beoty-mockup.png",
+    },
+    {
       title: "Logos Ink Press – Digital Magazine & Community Hub",
       description:
         "Designed and engineered a modern content management system (CMS) and digital library for Logos Ink Press, a community-driven publication. The platform bridges the gap between traditional print and digital media, allowing users to read high-resolution magazines directly in the browser while fostering community engagement through daily quotes and articles.",
@@ -152,9 +161,9 @@ export default function Portfolio() {
       title: "Modern Architecture Website",
       description:
         "A clean, responsive website showcasing architectural projects with interactive galleries, smooth animations, and optimized performance. Features project filtering, image lightboxes, and a minimalist design that highlights the architectural work through strategic typography and refined aesthetics..",
-      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
-      github: "https://github.com/tailwindlabs/tailwindcss", // Replace with your actual GitHub
-      live: "https://virtualworkslimited.netlify.app/", // Replace with your actual live demo
+      technologies: ["Vite", "HTML5", "CSS3", "JavaScript"],
+      github: "https://github.com/GeorgieW1/virtualworks-website",
+      live: "https://www.virtualworkslimited.com.ng",
       image: "/images/projects/wallpaper4.jpg",
     },
     {
