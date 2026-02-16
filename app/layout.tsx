@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Space_Grotesk } from "next/font/google"
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         {children}
+        <Analytics />
       </body>
     </html>
   )
