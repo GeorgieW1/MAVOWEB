@@ -149,15 +149,6 @@ export default function Portfolio() {
       image: "/images/projects/maerrytrad.png",
     },
     {
-      title: "E-Commerce Frontend",
-      description:
-        "A modern, responsive e-commerce interface built with React and Tailwind CSS. Features product filtering, cart management, and smooth animations.",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Stripe API"],
-      github: "https://github.com/vercel/next.js", // Replace with your actual GitHub
-      live: "https://vocal-marshmallow-f7ef79.netlify.app/", // Replace with your actual live demo
-      image: "/images/projects/ecommerce-project.jpg",
-    },
-    {
       title: "Modern Architecture Website",
       description:
         "A clean, responsive website showcasing architectural projects with interactive galleries, smooth animations, and optimized performance. Features project filtering, image lightboxes, and a minimalist design that highlights the architectural work through strategic typography and refined aesthetics..",
